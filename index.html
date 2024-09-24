@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mira</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #ffffff;
+      color: #000000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #ff4d4d;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #ff4d4d;
+    }
+
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+    }
+
+    .button-container {
+      margin-top: 20px;
+    }
+
+    .button {
+      background-color: #ff4d4d;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+      background-color: #cc0000;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .multiple-choice {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .multiple-choice input {
+      margin: 10px;
+    }
+
+    .confirmation-message {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Mira</h1>
+    
+    <!-- Questions Section -->
+    <div id="form-section">
+      <div class="question" id="question-1">
+        If you could spend a perfect day anywhere, where would it be?
+        <textarea id="answer-1" class="input-field"></textarea>
+      </div>
+      <div class="button-container" id="button-1">
+        <button class="button" onclick="nextQuestion(1)">Next</button>
+      </div>
+
+      <div class="question hidden" id="question-2">
+        What’s a small thing that always makes you smile?
+        <textarea id="answer-2" class="input-field"></textarea>
+      </div>
+      <div class="button-container hidden" id="button-2">
+        <button class="button" onclick="nextQuestion(2)">Next</button>
+      </div>
+
+      <div class="question hidden" id="question-3">
+        How do you feel about new beginnings?
+        <textarea id="answer-3" class="input-field"></textarea>
+      </div>
+      <div class="button-container hidden" id="button-3">
+        <button class="button" onclick="nextQuestion(3)">Next</button>
+      </div>
+
+      <div class="question hidden" id="question-4">
+        I’ve really enjoyed getting to know you, and I’d love to see where this connection could go. What do you think?
+        <div class="multiple-choice">
+          <label>
+            <input type="radio" name="answer-4" value="I feel the same"> I feel the same
+          </label>
+          <label>
+            <input type="radio" name="answer-4" value="Let's talk more"> Let's talk more
+          </label>
+        </div>
+      </div>
+      <div class="button-container hidden" id="button-4">
+        <button class="button" onclick="submitForm()">Submit</button>
+      </div>
+    </div>
+
+    <!-- Confirmation Section (Initially Hidden) -->
+    <div class="hidden" id="confirmation-section">
+      <p class="confirmation-message">Thank you, Mira! 😊 Your answers are ready to be shared.</p>
+      <div class="button-container">
+        <button class="button" onclick="shareToWhatsApp()">Share to WhatsApp</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function nextQuestion(current) {
+      document.getElementById('question-' + current).classList.add('hidden');
+      document.getElementById('button-' + current).classList.add('hidden');
+      var next = current + 1;
+      if (document.getElementById('question-' + next)) {
+        document.getElementById('question-' + next).classList.remove('hidden');
+        document.getElementById('button-' + next).classList.remove('hidden');
+      }
+    }
+
+    function submitForm() {
+      // Hide the form section and show the confirmation message
+      document.getElementById('form-section').classList.add('hidden');
+      document.getElementById('confirmation-section').classList.remove('hidden');
+    }
+
+    function shareToWhatsApp() {
+      // Get answers
+      const answer1 = document.getElementById('answer-1').value;
+      const answer2 = document.getElementById('answer-2').value;
+      const answer3 = document.getElementById('answer-3').value;
+      const answer4 = document.querySelector('input[name="answer-4"]:checked') ? document.querySelector('input[name="answer-4"]:checked').value : '';
+
+      // WhatsApp share link with prefilled text
+      const whatsappLink = `https://wa.me/27728218726?text=Hey! Here are my answers:%0A1. Perfect Day: ${encodeURIComponent(answer1)}%0A2. Makes You Smile: ${encodeURIComponent(answer2)}%0A3. New Beginnings: ${encodeURIComponent(answer3)}%0A4. Connection: ${encodeURIComponent(answer4)}`;
+      
+      // Open WhatsApp with the prefilled message
+      window.open(whatsappLink, '_blank');
+    }
+  </script>
+
+</body>
+</html>
